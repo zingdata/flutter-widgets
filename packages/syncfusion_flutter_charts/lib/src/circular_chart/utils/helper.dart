@@ -216,19 +216,19 @@ Offset degreeToPoint(num degree, num radius, Offset center) {
 void needsRepaintCircularChart(
     List<CircularSeriesRendererExtension> currentSeriesRenderers,
     List<CircularSeriesRendererExtension?> oldSeriesRenderers) {
-  if (currentSeriesRenderers.length == oldSeriesRenderers.length &&
-      currentSeriesRenderers[0].series == oldSeriesRenderers[0]!.series) {
-    for (int seriesIndex = 0;
-        seriesIndex < oldSeriesRenderers.length;
-        seriesIndex++) {
-      canRepaintSeries(currentSeriesRenderers, oldSeriesRenderers, seriesIndex);
-    }
-  } else {
+//   if (currentSeriesRenderers.length == oldSeriesRenderers.length &&
+//       currentSeriesRenderers[0].series == oldSeriesRenderers[0]!.series) {
+//     for (int seriesIndex = 0;
+//         seriesIndex < oldSeriesRenderers.length;
+//         seriesIndex++) {
+//       canRepaintSeries(currentSeriesRenderers, oldSeriesRenderers, seriesIndex);
+//     }
+//   } else {
     // ignore: avoid_function_literals_in_foreach_calls
     currentSeriesRenderers.forEach(
         (CircularSeriesRendererExtension seriesRenderer) =>
             seriesRenderer.needsRepaint = true);
-  }
+ // }
 }
 
 /// To repaint series.

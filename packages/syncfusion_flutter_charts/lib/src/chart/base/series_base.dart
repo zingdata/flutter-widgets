@@ -93,28 +93,32 @@ class ChartSeriesPanel {
     _renderTrendline();
   }
 
-  ///check whether axis animation applicable or not
-  bool _needAxisAnimation(CartesianSeriesRenderer seriesRenderer,
-      CartesianSeriesRenderer oldSeriesRenderer) {
+  bool _needAxisAnimation(
+      CartesianSeriesRenderer seriesRenderer, CartesianSeriesRenderer oldSeriesRenderer) {
     final SeriesRendererDetails seriesRendererDetails =
         SeriesHelper.getSeriesRendererDetails(seriesRenderer);
     final SeriesRendererDetails oldSeriesRendererDetails =
         SeriesHelper.getSeriesRendererDetails(oldSeriesRenderer);
-    final dynamic oldAxis = oldSeriesRendererDetails.xAxisDetails!.axis;
-    final dynamic axis = seriesRendererDetails.xAxisDetails!.axis;
-    final bool needAnimation =
-        seriesRendererDetails.series.animationDuration > 0 == true &&
-            seriesRendererDetails.yAxisDetails!.runtimeType ==
-                oldSeriesRendererDetails.yAxisDetails!.runtimeType &&
-            seriesRendererDetails.xAxisDetails!.runtimeType ==
-                oldSeriesRendererDetails.xAxisDetails!.runtimeType &&
-            ((oldAxis.visibleMinimum != null &&
-                    oldAxis.visibleMinimum != axis.visibleMinimum) ||
-                (oldAxis.visibleMaximum != null &&
-                    oldAxis.visibleMaximum != axis.visibleMaximum));
-    needAxisRangeAnimation = needAnimation;
-    return needAnimation;
+   
+    if (oldSeriesRendererDetails.xAxisDetails != null &&
+        oldSeriesRendererDetails.yAxisDetails != null &&
+        seriesRendererDetails.xAxisDetails != null &&
+        seriesRendererDetails.yAxisDetails != null) {
+      final dynamic oldAxis = oldSeriesRendererDetails.xAxisDetails!.axis;
+      final dynamic axis = seriesRendererDetails.xAxisDetails!.axis;
+      final bool needAnimation = seriesRendererDetails.series.animationDuration > 0 == true &&
+          seriesRendererDetails.yAxisDetails!.runtimeType ==
+              oldSeriesRendererDetails.yAxisDetails!.runtimeType &&
+          seriesRendererDetails.xAxisDetails!.runtimeType ==
+              oldSeriesRendererDetails.xAxisDetails!.runtimeType &&
+          ((oldAxis.visibleMinimum != null && oldAxis.visibleMinimum != axis.visibleMinimum) ||
+              (oldAxis.visibleMaximum != null && oldAxis.visibleMaximum != axis.visibleMaximum));
+      needAxisRangeAnimation = needAnimation;
+      return needAnimation;
+    }
+    return false;
   }
+
 
   /// Find the data points for each series
   void _populateDataPoints(List<CartesianSeriesRenderer> seriesRendererList) {
