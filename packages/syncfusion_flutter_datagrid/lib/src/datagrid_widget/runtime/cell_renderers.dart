@@ -27,8 +27,7 @@ abstract class GridCellRendererBase {
 
 /// A cell renderer which displays the header text in the
 /// stacked columns of the stacked header rows.
-class GridStackedHeaderCellRenderer
-    extends GridVirtualizingCellRendererBase<Widget, Widget> {
+class GridStackedHeaderCellRenderer extends GridVirtualizingCellRendererBase<Widget, Widget> {
   @override
   void onInitializeDisplayWidget(DataCellBase dataCell) {
     final DataGridConfiguration dataGridConfiguration = _dataGridStateDetails();
@@ -57,20 +56,17 @@ class GridStackedHeaderCellRenderer
 /// A cell renderer which displays the String value in the cell.
 ///
 /// This renderer is typically used for `GridColumn`.
-class GridCellTextFieldRenderer
-    extends GridVirtualizingCellRendererBase<Text, TextField> {
+class GridCellTextFieldRenderer extends GridVirtualizingCellRendererBase<Text, TextField> {
   @override
   void setCellStyle(DataCellBase? dataCell) {
     if (dataCell != null) {
-      final DataGridConfiguration dataGridConfiguration =
-          _dataGridStateDetails();
+      final DataGridConfiguration dataGridConfiguration = _dataGridStateDetails();
       dataCell.textStyle = _getCellTextStyle(dataGridConfiguration, dataCell);
       super.setCellStyle(dataCell);
     }
   }
 
-  TextStyle _getCellTextStyle(
-      DataGridConfiguration dataGridConfiguration, DataCellBase dataCell) {
+  TextStyle _getCellTextStyle(DataGridConfiguration dataGridConfiguration, DataCellBase dataCell) {
     final DataRowBase? dataRow = dataCell.dataRow;
     if (dataRow != null && dataRow.isSelectedRow) {
       return dataRow.isHoveredRow
@@ -93,8 +89,7 @@ class GridCellTextFieldRenderer
 }
 
 /// A cell renderer which displays the header text in the columns.
-class GridHeaderCellRenderer
-    extends GridVirtualizingCellRendererBase<Container, GridHeaderCell> {
+class GridHeaderCellRenderer extends GridVirtualizingCellRendererBase<Container, GridHeaderCell> {
   /// Creates the [GridHeaderCellRenderer] for [SfDataGrid] widget.
   GridHeaderCellRenderer() {
     super.isEditable = false;
@@ -104,12 +99,9 @@ class GridHeaderCellRenderer
   void onInitializeDisplayWidget(DataCellBase dataCell) {
     final DataGridConfiguration dataGridConfiguration = _dataGridStateDetails();
     final Widget child = DefaultTextStyle(
-        key: dataCell.key,
-        style: dataCell.textStyle!,
-        child: dataCell.gridColumn!.label);
+        key: dataCell.key, style: dataCell.textStyle!, child: dataCell.gridColumn!.label);
     if (dataGridConfiguration.showCheckboxColumn &&
-        dataCell.columnIndex ==
-            dataGridConfiguration.source.groupedColumns.length) {
+        dataCell.columnIndex == dataGridConfiguration.source.groupedColumns.length) {
       dataCell.columnElement = GridCell(
           key: dataCell.key!,
           dataCell: dataCell,
@@ -118,8 +110,7 @@ class GridHeaderCellRenderer
               dataCell.isDirty ||
               dataCell.dataRow!.isDirty,
           dataGridStateDetails: _dataGridStateDetails,
-          child:
-              _getCheckboxHeaderWidget(dataGridConfiguration, dataCell, child));
+          child: _getCheckboxHeaderWidget(dataGridConfiguration, dataCell, child));
     } else {
       dataCell.columnElement = GridHeaderCell(
           key: dataCell.key!,
@@ -148,8 +139,8 @@ class GridHeaderCellRenderer
 
   /// Creates a widget which displays label by default. Also, it creates with Checkbox,
   /// only when the [DataGridConfiguration.showCheckboxOnHeader] is true.
-  Widget _getCheckboxHeaderWidget(DataGridConfiguration dataGridConfiguration,
-      DataCellBase dataCell, Widget child) {
+  Widget _getCheckboxHeaderWidget(
+      DataGridConfiguration dataGridConfiguration, DataCellBase dataCell, Widget child) {
     final Widget label = Flexible(
         child: DefaultTextStyle(
             overflow: TextOverflow.ellipsis,
@@ -162,20 +153,15 @@ class GridHeaderCellRenderer
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Visibility(
-            visible: dataGridConfiguration
-                .checkboxColumnSettings.showCheckboxOnHeader,
+            visible: dataGridConfiguration.checkboxColumnSettings.showCheckboxOnHeader,
             child: Checkbox(
                 shape: dataGridConfiguration.checkboxShape,
                 tristate: true,
                 value: dataGridConfiguration.headerCheckboxState,
                 onChanged: (bool? newValue) {
-                  if (dataGridConfiguration.selectionMode ==
-                      SelectionMode.multiple) {
-                    selection_manager.handleSelectionFromCheckbox(
-                        dataGridConfiguration,
-                        dataCell,
-                        dataGridConfiguration.headerCheckboxState,
-                        newValue);
+                  if (dataGridConfiguration.selectionMode == SelectionMode.multiple) {
+                    selection_manager.handleSelectionFromCheckbox(dataGridConfiguration, dataCell,
+                        dataGridConfiguration.headerCheckboxState, newValue);
                   }
                 })),
         label
@@ -185,8 +171,8 @@ class GridHeaderCellRenderer
 }
 
 /// A base class for cell renderer classes which displays widget in a cell.
-abstract class GridVirtualizingCellRendererBase<T1 extends Widget,
-    T2 extends Widget> extends GridCellRendererBase {
+abstract class GridVirtualizingCellRendererBase<T1 extends Widget, T2 extends Widget>
+    extends GridCellRendererBase {
   /// Creates the [GridVirtualizingCellRendererBase] for [SfDataGrid] widget.
   GridVirtualizingCellRendererBase();
 
@@ -210,8 +196,7 @@ abstract class GridVirtualizingCellRendererBase<T1 extends Widget,
     // when the datacell column index is greater than the column count.
     // Enabling the check will avoid the exception when the column index is
     // greater than the column count.
-    if (index < 0 ||
-        index >= dataCell.dataRow!.dataGridRowAdapter!.cells.length) {
+    if (index < 0 || index >= dataCell.dataRow!.dataGridRowAdapter!.cells.length) {
       return;
     }
 
@@ -229,12 +214,10 @@ abstract class GridVirtualizingCellRendererBase<T1 extends Widget,
       key: dataCell.key!,
       dataCell: dataCell,
       backgroundColor: Colors.transparent,
-      isDirty: dataGridConfiguration.container.isDirty ||
-          dataCell.isDirty ||
-          dataCell.dataRow!.isDirty,
+      isDirty:
+          dataGridConfiguration.container.isDirty || dataCell.isDirty || dataCell.dataRow!.isDirty,
       dataGridStateDetails: _dataGridStateDetails,
-      child: DefaultTextStyle(
-          key: dataCell.key, style: dataCell.textStyle!, child: getChild()),
+      child: DefaultTextStyle(key: dataCell.key, style: dataCell.textStyle!, child: getChild()),
     );
   }
 
@@ -246,8 +229,7 @@ abstract class GridVirtualizingCellRendererBase<T1 extends Widget,
 }
 
 /// A cell renderer which displays the check box column.
-class GridCheckboxRenderer
-    extends GridVirtualizingCellRendererBase<Widget, Widget> {
+class GridCheckboxRenderer extends GridVirtualizingCellRendererBase<Widget, Widget> {
   @override
   void onInitializeDisplayWidget(DataCellBase dataCell) {
     final DataGridConfiguration dataGridConfiguration = _dataGridStateDetails();
@@ -261,8 +243,7 @@ class GridCheckboxRenderer
         key: dataCell.key!,
         dataCell: dataCell,
         backgroundColor:
-            dataGridConfiguration.checkboxColumnSettings.backgroundColor ??
-                Colors.transparent,
+            dataGridConfiguration.checkboxColumnSettings.backgroundColor ?? Colors.transparent,
         isDirty: dataGridConfiguration.container.isDirty ||
             dataCell.isDirty ||
             dataCell.dataRow!.isDirty,
@@ -278,19 +259,17 @@ class GridCheckboxRenderer
 }
 
 /// A cell renderer which displays the widgets to the table summary rows.
-class GridTableSummaryCellRenderer
-    extends GridVirtualizingCellRendererBase<Widget, Widget> {
+class GridTableSummaryCellRenderer extends GridVirtualizingCellRendererBase<Widget, Widget> {
   @override
   void onInitializeDisplayWidget(DataCellBase dataCell) {
     final DataGridConfiguration dataGridConfiguration = _dataGridStateDetails();
     Widget getSummaryCell() {
       Widget? cell;
-      final GridTableSummaryRow? tableSummaryRow =
-          dataCell.dataRow!.tableSummaryRow;
+      final GridTableSummaryRow? tableSummaryRow = dataCell.dataRow!.tableSummaryRow;
 
       if (tableSummaryRow != null) {
-        final int titleColumnSpan = grid_helper.getSummaryTitleColumnSpan(
-            dataGridConfiguration, tableSummaryRow);
+        final int titleColumnSpan =
+            grid_helper.getSummaryTitleColumnSpan(dataGridConfiguration, tableSummaryRow);
         if (dataCell.summaryColumn != null ||
             tableSummaryRow.showSummaryInRow ||
             (!tableSummaryRow.showSummaryInRow &&
@@ -300,11 +279,10 @@ class GridTableSummaryCellRenderer
           final RowColumnIndex rowColumnIndex =
               RowColumnIndex(dataCell.rowIndex, dataCell.columnIndex);
           final String title = dataGridConfiguration.source
-              .calculateSummaryValue(
-                  tableSummaryRow, summaryColumn, rowColumnIndex);
+              .calculateSummaryValue(tableSummaryRow, summaryColumn, rowColumnIndex);
 
-          cell = dataGridConfiguration.source.buildTableSummaryCellWidget(
-              tableSummaryRow, summaryColumn, rowColumnIndex, title);
+          cell = dataGridConfiguration.source
+              .buildTableSummaryCellWidget(tableSummaryRow, summaryColumn, rowColumnIndex, title);
         }
       }
       cell ??= Container();
@@ -333,8 +311,7 @@ class GridTableSummaryCellRenderer
 }
 
 /// A cell renderer which displays the widgets to the caption summary rows.
-class GridCaptionSummaryCellRenderer
-    extends GridVirtualizingCellRendererBase<Widget, Widget> {
+class GridCaptionSummaryCellRenderer extends GridVirtualizingCellRendererBase<Widget, Widget> {
   @override
   void onInitializeDisplayWidget(DataCellBase dataCell) {
     final DataGridConfiguration dataGridConfiguration = _dataGridStateDetails();
@@ -343,24 +320,20 @@ class GridCaptionSummaryCellRenderer
       Widget? result;
 
       if (dataGridConfiguration.source.groupedColumns.isNotEmpty) {
-        final int rowIndex =
-            resolveStartRecordIndex(dataGridConfiguration, dataCell.rowIndex);
+        final int rowIndex = resolveStartRecordIndex(dataGridConfiguration, dataCell.rowIndex);
 
         if (rowIndex >= 0) {
-          final dynamic groupItems =
-              getGroupElement(dataGridConfiguration, rowIndex);
+          final dynamic groupItems = getGroupElement(dataGridConfiguration, rowIndex);
 
           if (groupItems is Group) {
             final int level = groupItems.level;
-            final int length =
-                dataGridConfiguration.source.groupedColumns.length;
+            final int length = dataGridConfiguration.source.groupedColumns.length;
 
             if (level > 0 && level <= length) {
               final String groupedColumn =
                   dataGridConfiguration.source.groupedColumns[level - 1].name;
 
-              String groupCaptionTitleFormat =
-                  dataGridConfiguration.groupCaptionTitleFormat;
+              String groupCaptionTitleFormat = dataGridConfiguration.groupCaptionTitleFormat;
               groupCaptionTitleFormat = groupCaptionTitleFormat
                   .replaceAll('{ColumnName}', groupedColumn)
                   .replaceAll('{Key}', '${groupItems.key}')
@@ -368,8 +341,7 @@ class GridCaptionSummaryCellRenderer
               final RowColumnIndex rowColumnIndex =
                   RowColumnIndex(dataCell.rowIndex, dataCell.columnIndex);
               final Widget? cell = dataGridConfiguration.source
-                  .buildGroupCaptionCellWidget(
-                      rowColumnIndex, groupCaptionTitleFormat);
+                  .buildGroupCaptionCellWidget(rowColumnIndex, groupCaptionTitleFormat);
 
               result = cell;
             }
@@ -392,8 +364,7 @@ class GridCaptionSummaryCellRenderer
     dataCell.columnElement = GridCell(
       key: dataCell.key!,
       dataCell: dataCell,
-      backgroundColor:
-          dataGridConfiguration.dataGridThemeHelper!.captionSummaryRowColor,
+      backgroundColor: Colors.transparent,
       dataGridStateDetails: _dataGridStateDetails,
       isDirty: dataGridConfiguration.container.isDirty || dataCell.isDirty,
       child: label,
@@ -402,8 +373,7 @@ class GridCaptionSummaryCellRenderer
 }
 
 /// A cell renderer which displays the widgets to the Indent cell.
-class GridIndentCellRenderer
-    extends GridVirtualizingCellRendererBase<Widget, Widget> {
+class GridIndentCellRenderer extends GridVirtualizingCellRendererBase<Widget, Widget> {
   @override
   void onInitializeDisplayWidget(DataCellBase dataCell) {
     final DataGridConfiguration dataGridConfiguration = _dataGridStateDetails();
@@ -411,11 +381,9 @@ class GridIndentCellRenderer
     if (dataGridConfiguration.source.groupedColumns.isNotEmpty &&
         dataCell.dataRow!.rowType == RowType.captionSummaryCoveredRow &&
         dataGridConfiguration.allowExpandCollapseGroup) {
-      final int rowIndex =
-          resolveStartRecordIndex(dataGridConfiguration, dataCell.rowIndex);
+      final int rowIndex = resolveStartRecordIndex(dataGridConfiguration, dataCell.rowIndex);
       if (rowIndex >= 0) {
-        final dynamic groupItem =
-            getGroupElement(dataGridConfiguration, rowIndex);
+        final dynamic groupItem = getGroupElement(dataGridConfiguration, rowIndex);
 
         if (groupItem is Group) {
           final int iconIndex = groupItem.level - 1;
@@ -436,11 +404,10 @@ class GridIndentCellRenderer
     dataCell.columnElement = GridCell(
       key: dataCell.key!,
       dataCell: dataCell,
-      backgroundColor: dataCell.rowIndex >=
-              grid_helper
-                  .resolveStartIndexBasedOnPosition(dataGridConfiguration)
-          ? dataGridConfiguration.dataGridThemeHelper!.indentColumnColor!
-          : dataGridConfiguration.colorScheme!.transparent,
+      backgroundColor:
+          dataCell.rowIndex >= grid_helper.resolveStartIndexBasedOnPosition(dataGridConfiguration)
+              ? dataGridConfiguration.dataGridThemeHelper!.indentColumnColor!
+              : dataGridConfiguration.colorScheme!.transparent,
       dataGridStateDetails: _dataGridStateDetails,
       isDirty: dataGridConfiguration.container.isDirty || dataCell.isDirty,
       child: newIcon,
@@ -472,8 +439,7 @@ class GroupExpanderIcon extends StatefulWidget {
 }
 
 /// Represents a collapsed and expanded icon.
-class GroupExpanderIconState extends State<GroupExpanderIcon>
-    with SingleTickerProviderStateMixin {
+class GroupExpanderIconState extends State<GroupExpanderIcon> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _rotationAnimation;
 
@@ -489,8 +455,7 @@ class GroupExpanderIconState extends State<GroupExpanderIcon>
     _rotationAnimation = Tween<double>(begin: 0.0, end: 0.5)
         .animate(CurvedAnimation(parent: _controller, curve: Curves.easeIn));
 
-    if (widget.dataGridConfiguration.groupExpandCollapseRowIndex ==
-        widget.rowIndex) {
+    if (widget.dataGridConfiguration.groupExpandCollapseRowIndex == widget.rowIndex) {
       _controller.value = widget.isExpanded ? 0.0 : 1.0;
       if (widget.isExpanded) {
         _controller.forward();
@@ -510,8 +475,7 @@ class GroupExpanderIconState extends State<GroupExpanderIcon>
       builder: (BuildContext context, Widget? child) {
         return Transform.rotate(
           angle: _rotationAnimation.value * 2 * 3.14159265359,
-          child: widget.dataGridConfiguration.dataGridThemeHelper
-                  ?.groupExpanderIcon ??
+          child: widget.dataGridConfiguration.dataGridThemeHelper?.groupExpanderIcon ??
               Icon(
                 Icons.expand_less,
                 color: widget.dataGridConfiguration.colorScheme!.onSurface[153],
@@ -529,7 +493,7 @@ class GroupExpanderIconState extends State<GroupExpanderIcon>
 }
 
 /// Sets the `dataGridConfiguration` to the cell renderers.
-void setStateDetailsInCellRendererBase(GridCellRendererBase cellRendererBase,
-    DataGridStateDetails dataGridStateDetails) {
+void setStateDetailsInCellRendererBase(
+    GridCellRendererBase cellRendererBase, DataGridStateDetails dataGridStateDetails) {
   cellRendererBase._dataGridStateDetails = dataGridStateDetails;
 }
